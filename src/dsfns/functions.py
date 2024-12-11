@@ -64,7 +64,7 @@ def MissingVal_Fillna(df):
     for x in num_cols:
         df[x] = df[x].fillna(df[x].mean())
 
-    cat_cols = df.select_dtypes(include=['object']).columns
+    cat_cols = df.select_dtypes(include=['object', 'category']).columns
     for y in cat_cols:
         df[y] = df[y].fillna(df[y].mode()[0])
     
@@ -96,7 +96,6 @@ def outlierCount(df, columns):
 
 def highFrequency(df, perc=0.5):
     high_freq_columns = []
-    
     for col in df.columns:
         if pd.api.types.is_numeric_dtype(df[col]):
             value_counts = df[col].value_counts()
@@ -110,16 +109,18 @@ def highFrequency(df, perc=0.5):
 
 ## VERSION 1.4
 
-def Encoding_Label(df):
-    label = LabelEncoder()
-    cat_cols = df.select_dtypes(include=['object','category']).columns
-    
-    for i in cat_cols:
-        df[i] = label.fit_transform(df[i])
+def Encoding(df,method='label'):
+    cat_cols = df.select_dtypes(include=['object', 'category']).columns
+    if method == 'label':
+        label = LabelEncoder()
+        for col in cat_cols:
+            df[col] = label.fit_transform(df[col])
+    elif method == 'onehot':
+        df = pd.get_dummies(df, columns=cat_cols)
 
 
 
-def Scaler(df, method='minmax'):
+def Scaling(df, method='minmax'):
     if method == 'standard':
         scaler = StandardScaler()
     elif method == 'minmax':
