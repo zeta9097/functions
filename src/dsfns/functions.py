@@ -129,8 +129,8 @@ def Scaling(df, method='minmax'):
         scaler = RobustScaler()
         
     df = pd.DataFrame(scaler.fit_transform(df),columns=df.columns)
-    return df.head()
-
+    
+    
 
 ## VERSION 1.6
 

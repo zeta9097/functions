@@ -78,11 +78,12 @@ pip install dsfns
 
 #### VERSION 1.4
 
-10. Encoding_Label(df)
+10. Encoding(df, method='label')
     Encodes categorical columns into numeric labels for compatibility with machine learning algorithms.
     Parameters:
 
     -   df: A Pandas DataFrame containing the dataset.
+    -   method: 'label' for label encoding OR 'onehot' for OneHotEncoding
 
 11. Scaler(df, method='minmax')
     Scales numerical data for better performance during machine learning model training.
@@ -94,6 +95,24 @@ pip install dsfns
         'standard': Standardizes data to have a mean of 0 and a standard deviation of 1.
         'robust': Scales data using the median and interquartile range, making it robust to outliers.
 
-#### VERSION 1.4
+#### VERSION 1.5
 
 General code fixes
+
+#### VERSION 1.6
+
+12. outlierDecider(df, columns, output='list')
+    The outlierDecider function helps identify columns in a DataFrame that either have low variance (where the Interquartile Range [IQR] is zero) or potential outliers (based on the IQR rule). The function supports two modes of output:
+
+    list Mode: Returns and prints two separate lists:
+    LowVar: Columns with low variance (IQR = 0).
+    Repl: Columns where outliers may need to be addressed (IQR > 0).
+
+    summary Mode: Prints a detailed summary for each column, indicating whether it has low variance or requires outlier replacement.
+
+    Parameters:
+    df: A pandas DataFrame containing the data to analyze.
+    columns: A list of column names to evaluate for low variance or outliers.
+    output: A string specifying the mode of operation ('list' or 'summary').
+    'list': Generates two lists (LowVar and Repl) and prints them.
+    'summary': Prints a simple summary for each column.
