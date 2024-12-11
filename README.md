@@ -74,7 +74,7 @@ pip install dsfns
    Identifies and returns columns where more than the given percentage (default 70%) of values are identical, typically used to detect low-variance or high-frequency columns.
    Parameters:
     - df: DataFrame — The input data to identify high-frequency columns.
-    - perc: float, default 0.7 — The percentage threshold for identifying high-frequency columns.
+    - perc: float, default 0.5 — The percentage threshold for identifying high-frequency columns.
 
 #### VERSION 1.4
 
@@ -93,3 +93,7 @@ pip install dsfns
         'minmax' (default): Rescales data to a range of 0 to 1.
         'standard': Standardizes data to have a mean of 0 and a standard deviation of 1.
         'robust': Scales data using the median and interquartile range, making it robust to outliers.
+
+#### VERSION 1.4
+
+General code fixes
