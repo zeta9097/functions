@@ -130,3 +130,30 @@ def Scaling(df, method='minmax'):
         
     df = pd.DataFrame(scaler.fit_transform(df),columns=df.columns)
     return df.head()
+
+
+## VERSION 1.6
+
+def outlierDecider(df,columns,output='list'):
+    LowVar = []
+    Repl = []
+    for i in columns:
+        IQR = df[i].quantile(0.75) - df[i].quantile(0.25)
+        UL = df[i].quantile(0.75) + (1.5 * IQR)
+        LL = df[i].quantile(0.25) - (1.5 * IQR)
+
+        if output == 'list':
+            if IQR == 0:
+                LowVar.append(i)
+            else:
+                Repl.append(i)    
+
+        elif output == 'summary':
+            if IQR == 0:
+                print(f"{i} : Low Variance")
+            else:
+                print(f"{i} : Replace Outliers") 
+
+    if output == 'list':
+        print(f"LowVariance :{LowVar}")
+        print(f"ReplaceOutliers : {Repl}")
