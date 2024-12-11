@@ -117,6 +117,6 @@ General code fixes
     'list': Generates two lists (LowVar and Repl) and prints them.
     'summary': Prints a simple summary for each column.
 
-#### VERSION 1.7
+#### VERSION 1.7 and 1.8
 
 General code fixes

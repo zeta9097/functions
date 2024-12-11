@@ -15,7 +15,7 @@ def Outlier_IQR(df,columns):
         LL = df[i].quantile(0.25) - (1.5 * IQR)
 
         df[i] = np.where(df[i] > UL, UL, np.where(df[i] < LL , LL, df[i]))
-    return df.head()
+    return df
 
 
 
@@ -26,14 +26,14 @@ def Outlier_Winsorizer(df, column, capping_method='iqr'):
                         variables=[column])
     
     df[column] = winsor.fit_transform(df[[column]])
-    return df.head()
+    return df
 
 
 
 def Outlier_Clip(df,columns):
     for column in columns:
         df[column] = df[column].clip(lower=df[column].quantile(0.05), upper=df[column].quantile(0.95))
-    return df.head()
+    return df
 
 
 def MissingVal_Repl(df, columns, type='mean'):
@@ -46,7 +46,7 @@ def MissingVal_Repl(df, columns, type='mean'):
             value = df[i].mode()[0]  
         
         df[i] = df[i].replace(np.nan, value)
-    return df.head()
+    return df
 
 
 def MissingVal_Imputer(df,columns,strategy='mean'):
@@ -56,7 +56,7 @@ def MissingVal_Imputer(df,columns,strategy='mean'):
     imputer = SimpleImputer(missing_values=np.nan, strategy=strategy)
     for i in columns:
         df[i] = pd.DataFrame(imputer.fit_transform(df[[i]]))
-    return df.head()
+    return df
     
 
 def MissingVal_Fillna(df):
@@ -67,7 +67,7 @@ def MissingVal_Fillna(df):
     cat_cols = df.select_dtypes(include=['object', 'category']).columns
     for y in cat_cols:
         df[y] = df[y].fillna(df[y].mode()[0])
-    return df.head()
+    return df
 
 
 ## VERSION 1.3
@@ -117,7 +117,7 @@ def Encoding(df,method='label'):
             df[col] = label.fit_transform(df[col])
     elif method == 'onehot':
         df = pd.get_dummies(df, columns=cat_cols)
-    return df.head()
+    return df
 
 
 def Scaling(df, method='minmax'):
@@ -129,7 +129,7 @@ def Scaling(df, method='minmax'):
         scaler = RobustScaler()
         
     df = pd.DataFrame(scaler.fit_transform(df),columns=df.columns)
-    return df.head()
+    return df
     
 
 ## VERSION 1.6
