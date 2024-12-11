@@ -116,3 +116,7 @@ General code fixes
     output: A string specifying the mode of operation ('list' or 'summary').
     'list': Generates two lists (LowVar and Repl) and prints them.
     'summary': Prints a simple summary for each column.
+
+#### VERSION 1.7
+
+General code fixes
