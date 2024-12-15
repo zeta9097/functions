@@ -112,14 +112,11 @@ General code fixes
 12. Outlier_MMM(df, columns, type='median')
     This function is designed to identify and handle outliers in the specified columns of a given DataFrame. It uses the Interquartile Range (IQR) method to determine outliers and replaces the outliers with a user-defined statistic (mean, median, or mode).
 
-    Parameters:
-    df (DataFrame): The input pandas DataFrame that contains the data to be processed.
-    columns (list of str): A list of column names in the DataFrame where outlier handling should be applied.
-    type (str, optional): The statistic used to replace the outliers. It can be one of 'mean', 'median', or 'mode'. The default is 'median'.
+    -   df (DataFrame): The input pandas DataFrame that contains the data to be processed.
+        columns (list of str): A list of column names in the DataFrame where outlier handling should be applied.
+    -   type (optional): It can be one of 'mean', 'median', or 'mode'. The default is 'median'.
 
 13. LowVarianceCols(df)
     This function detects columns in a DataFrame with very low variance (i.e., columns where the values are almost constant or do not vary much). Columns with zero variance are identified as low-variance columns. Returns a list of column names that have low variance (IQR = 0)
 
-    Parameters:
-    df (DataFrame): The input pandas DataFrame for which low variance columns need to be identified.
-    Method:
+    -   df (DataFrame): The input pandas DataFrame for which low variance columns need to be identified.
