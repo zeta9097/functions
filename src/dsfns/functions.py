@@ -132,28 +132,40 @@ def Scaling(df, method='minmax'):
     return df
     
 
-## VERSION 1.6
 
-def outlierDecider(df,columns,output='list'):
-    LowVar = []
-    Repl = []
+## VERSION 1.6
+# Redundant Codes removed
+
+## VERSION 1.9
+
+def Outlier_MMM(df, columns, type='median'):
     for i in columns:
         IQR = df[i].quantile(0.75) - df[i].quantile(0.25)
         UL = df[i].quantile(0.75) + (1.5 * IQR)
         LL = df[i].quantile(0.25) - (1.5 * IQR)
 
-        if output == 'list':
-            if IQR == 0:
-                LowVar.append(i)
-            else:
-                Repl.append(i)    
+        if type == 'mean':
+            value = df[i].mean()
+        elif type == 'median':
+            value = df[i].median()
+        elif type == 'mode':
+            value = df[i].mode()[0]
 
-        elif output == 'summary':
-            if IQR == 0:
-                print(f"{i} : Low Variance")
-            else:
-                print(f"{i} : Replace Outliers") 
+        if df[i].dtype in ['int32', 'int64']:
+            value = int(value)    
+        
+        df.loc[df[i] > UL, i] = value
+        df.loc[df[i] < LL, i] = value
 
-    if output == 'list':
-        print(f"LowVariance :{LowVar}")
-        print(f"ReplaceOutliers : {Repl}")
+    return df
+
+
+def LowVarianceCols(df):
+    LowVar = []
+    columns = df.describe(include = ['int','float']).columns
+    for i in columns:
+        IQR = df[i].quantile(0.75) - df[i].quantile(0.25)
+        if IQR == 0:
+            LowVar.append(i)
+         
+    return LowVar
