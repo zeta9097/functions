@@ -101,22 +101,25 @@ General code fixes
 
 #### VERSION 1.6
 
-12. outlierDecider(df, columns, output='list')
-    The outlierDecider function helps identify columns in a DataFrame that either have low variance (where the Interquartile Range [IQR] is zero) or potential outliers (based on the IQR rule). The function supports two modes of output:
-
-    list Mode: Returns and prints two separate lists:
-    LowVar: Columns with low variance (IQR = 0).
-    Repl: Columns where outliers may need to be addressed (IQR > 0).
-
-    summary Mode: Prints a detailed summary for each column, indicating whether it has low variance or requires outlier replacement.
-
-    Parameters:
-    df: A pandas DataFrame containing the data to analyze.
-    columns: A list of column names to evaluate for low variance or outliers.
-    output: A string specifying the mode of operation ('list' or 'summary').
-    'list': Generates two lists (LowVar and Repl) and prints them.
-    'summary': Prints a simple summary for each column.
+Redundant Code removed
 
 #### VERSION 1.7 and 1.8
 
 General code fixes
+
+#### VERSION 1.9
+
+12. Outlier_MMM(df, columns, type='median')
+    This function is designed to identify and handle outliers in the specified columns of a given DataFrame. It uses the Interquartile Range (IQR) method to determine outliers and replaces the outliers with a user-defined statistic (mean, median, or mode).
+
+    Parameters:
+    df (DataFrame): The input pandas DataFrame that contains the data to be processed.
+    columns (list of str): A list of column names in the DataFrame where outlier handling should be applied.
+    type (str, optional): The statistic used to replace the outliers. It can be one of 'mean', 'median', or 'mode'. The default is 'median'.
+
+13. LowVarianceCols(df)
+    This function detects columns in a DataFrame with very low variance (i.e., columns where the values are almost constant or do not vary much). Columns with zero variance are identified as low-variance columns. Returns a list of column names that have low variance (IQR = 0)
+
+    Parameters:
+    df (DataFrame): The input pandas DataFrame for which low variance columns need to be identified.
+    Method:
