@@ -71,7 +71,7 @@ pip install dsfns
     - columns: list — List of columns to check for outliers.
 
 9. highFrequency(df, perc=0.5)
-   Identifies and returns columns where more than the given percentage (default 70%) of values are identical, typically used to detect low-variance or high-frequency columns.
+   Identifies and returns columns where more than the given percentage (default 50%) of values are identical, typically used to detect low-variance or high-frequency columns.
    Parameters:
     - df: DataFrame — The input data to identify high-frequency columns.
     - perc: float, default 0.5 — The percentage threshold for identifying high-frequency columns.
