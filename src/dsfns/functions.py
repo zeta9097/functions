@@ -169,3 +169,18 @@ def LowVarianceCols(df):
             LowVar.append(i)
          
     return LowVar
+
+
+## VERSION 2.0
+
+def MissingVal_Interpolate(df,type='linear'):
+    num_cols = df.select_dtypes(include=['float', 'int']).columns
+    for i in num_cols:
+        if type == 'linear':
+            df[i] = df[i].interpolate(method='linear')
+        elif type == 'polynomial':
+            df[i] = df[i].interpolate(method='polynomial', order=2)
+        elif type == 'spline':
+            df[i] = df[i].interpolate(method='spline', order=3)
+    return df
+

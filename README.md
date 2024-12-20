@@ -120,3 +120,15 @@ General code fixes
     This function detects columns in a DataFrame with very low variance (i.e., columns where the values are almost constant or do not vary much). Columns with zero variance are identified as low-variance columns. Returns a list of column names that have low variance (IQR = 0)
 
     -   df (DataFrame): The input pandas DataFrame for which low variance columns need to be identified.
+
+#### VERSION 2.0
+
+14. def MissingVal_Interpolate(df,type='linear')
+    This function is designed to handle missing values in a DataFrame by applying interpolation methods to the numerical columns.
+    NOTE: Interpolation only works for numeric columns.
+
+    -   df (DataFrame): The input DataFrame that contains missing (NaN) values.
+    -   type: Specifies the interpolation method to be used. Options include:
+        'linear': Uses linear interpolation (default).
+        'polynomial': Uses polynomial interpolation with degree 2 (quadratic).
+        'spline': Uses cubic spline interpolation.
