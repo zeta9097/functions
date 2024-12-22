@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 from feature_engine.outliers import Winsorizer
 import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
@@ -184,3 +185,37 @@ def MissingVal_Interpolate(df,type='linear'):
             df[i] = df[i].interpolate(method='spline', order=3)
     return df
 
+
+def Lineplot_Multi(df, inpCol, outCol, figsize=(15, 5)):
+
+    n_plots = len(inpCol)
+    n_rows = int(np.ceil(n_plots / 3))
+    plt.figure(figsize=(figsize[0], figsize[1] * n_rows))
+    
+    for i, col in enumerate(inpCol, 1): 
+        plt.subplot(n_rows, 3, i)  
+        sns.lineplot(data=df, x=col, y=outCol)
+        plt.title(col)  
+        plt.xlabel(col)  
+        plt.ylabel(outCol) 
+        plt.grid(True)
+    
+    plt.tight_layout()
+    plt.show()
+
+
+
+def Lineplot_Single(df, inpCol, outCol):
+    plt.figure(figsize=(10,9))
+    
+    for col in inpCol:
+        sns.lineplot(data=df, x=col, y=outCol, label=col)
+    
+    plt.title(f"{outCol} vs Input Columns")
+    plt.xlabel("Input Columns")
+    plt.ylabel(outCol)
+    plt.legend(title="Input Columns")
+    plt.grid(True)
+    
+    plt.tight_layout()
+    plt.show()
