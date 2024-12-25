@@ -6,6 +6,8 @@ import seaborn as sns
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from statsmodels.tools.tools import add_constant
 
 
 
@@ -219,3 +221,37 @@ def Lineplot_Single(df, inpCol, outCol):
     
     plt.tight_layout()
     plt.show()
+
+## VERSION 2.1
+
+def RegressionPlot_Multiple(df, inpCol, outCol, figsize=(15, 5)):
+   
+    n_plots = len(inpCol)
+    n_rows = int(np.ceil(n_plots / 3))
+    plt.figure(figsize=(figsize[0], figsize[1] * n_rows))
+    
+    for i, col in enumerate(inpCol, 1):
+        plt.subplot(n_rows, 3, i) 
+        sns.regplot(data=df, x=col, y=outCol, ci=None)  
+        plt.title(f'Regression: {col} vs {outCol}')
+        plt.xlabel(col)  
+        plt.ylabel(outCol)  
+        plt.grid(True)
+    
+    plt.tight_layout()
+    plt.show()
+
+
+
+def VIF(X):
+    X = add_constant(X)
+    vif_df = pd.DataFrame()
+    vif_df["Variable"] = X.columns[1:]
+
+    vif_values = []
+    for i in range(1,X.shape[1]):
+        vif = variance_inflation_factor(X.values, i)
+        vif_values.append(vif)
+
+    vif_df["VIF"] = vif_values
+    return vif_df    

@@ -152,7 +152,7 @@ General code fixes
         'polynomial': Uses polynomial interpolation with degree 2 (quadratic).
         'spline': Uses cubic spline interpolation.
 
-15. Lineplot_Multiple:
+15. LinePlot Multiple:
     Creates a set of subplots where each input column (inpCol) is plotted against the output column (outCol) in individual subplots.
 
     def Lineplot_Multi(df, inpCol, outCol, figsize=(15, 5))
@@ -162,7 +162,7 @@ General code fixes
     -   outCol (str): The output column (target variable) to plot against each input column.
     -   figsize (tuple): Tuple defining the size of the overall figure (default: (15, 5)).
 
-16. Lineplot_Single:
+16. LinePlot Single:
     Plots multiple input columns (inpCol) against the output column (outCol) on the same plot, using different lines for each input column, with a legend to identify them.
     NOTE: SCALE THE DATA FOR BETTER VISUALIZATION
 
@@ -171,3 +171,23 @@ General code fixes
     -   df (DataFrame): The input dataset containing the columns to plot.
     -   inpCol (list): A list of input columns (features) to plot against the output column.
     -   outCol (str): The output column (target variable) to plot against each input column.
+
+#### VERSION 2.1
+
+17. RegressionPlot Multiple:
+    Creates a set of subplots where each input column (inpCol) is plotted against the output column (outCol) in individual subplots.
+
+    def RegressionPlot_Multiple(df, inpCol, outCol, figsize=(15, 5))
+
+    -   df (DataFrame): The input dataset containing the columns to plot.
+    -   inpCol (list): A list of input columns (features) to plot against the output column.
+    -   outCol (str): The output column (target variable) to plot against each input column.
+    -   figsize (tuple): Tuple defining the size of the overall figure (default: (15, 5)).
+
+18. VIF(Variance Inflation Factor)
+    The VIF function calculates the Variance Inflation Factor (VIF) for each predictor variable in a dataset, providing insights into multicollinearity. A high VIF (usually greater than 10) indicates that the variable is highly collinear with other predictors and might need to be addressed.
+
+    def VIF(X)
+
+    -   X (DataFrame): A DataFrame containing the independent variables (predictor features) of the dataset.
+        NOTE: The dataset should not include the target variable (dependent variable).
