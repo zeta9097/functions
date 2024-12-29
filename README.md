@@ -191,3 +191,7 @@ General code fixes
 
     -   X (DataFrame): A DataFrame containing the independent variables (predictor features) of the dataset.
         NOTE: The dataset should not include the target variable (dependent variable).
+
+#### VERSION 2.1.1
+
+Fixed general code issues

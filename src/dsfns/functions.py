@@ -232,7 +232,7 @@ def RegressionPlot_Multiple(df, inpCol, outCol, figsize=(15, 5)):
     
     for i, col in enumerate(inpCol, 1):
         plt.subplot(n_rows, 3, i) 
-        sns.regplot(data=df, x=col, y=outCol, ci=None)  
+        sns.regplot(data=df, x=col, y=outCol, ci=None,line_kws={'color':'red'})    
         plt.title(f'Regression: {col} vs {outCol}')
         plt.xlabel(col)  
         plt.ylabel(outCol)  
@@ -255,3 +255,7 @@ def VIF(X):
 
     vif_df["VIF"] = vif_values
     return vif_df    
+
+
+## VERSION 2.1.1
+# Redundant Codes removed
