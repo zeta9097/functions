@@ -195,3 +195,16 @@ General code fixes
 #### VERSION 2.1.1
 
 Fixed general code issues
+
+#### VERSION 2.2
+
+19. Compare Model Accuracy:
+    The CompareAccuracy function is a utility to evaluate and compare the training and testing accuracy of multiple machine learning models on a given dataset. It provides a simple way to benchmark different models and understand their performance.
+
+    def CompareAccuracy(models, x_train, x_test, y_train, y_test):
+
+    models (dict): A dictionary where keys are model names (str) and values are their respective model objects.
+    x_train (array-like): The feature set for training the models.
+    x_test (array-like): The feature set for testing the models.
+    y_train (array-like): The target labels for training the models.
+    y_test (array-like): The target labels for testing the models.

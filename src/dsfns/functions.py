@@ -8,6 +8,8 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tools.tools import add_constant
+from sklearn import metrics
+
 
 
 
@@ -259,3 +261,29 @@ def VIF(X):
 
 ## VERSION 2.1.1
 # Redundant Codes removed
+
+
+## VERSION 2.2
+
+def CompareAccuracy(models, x_train, x_test, y_train, y_test):
+    AccScore = []
+
+    for name, model in models.items():
+        
+        model.fit(x_train, y_train)
+
+        #TEST ACC
+        testPreds = model.predict(x_test)
+        teAcc = metrics.accuracy_score(y_test, testPreds)
+
+        #TRAIN ACC
+        trainPreds = model.predict(x_train)
+        trAcc = metrics.accuracy_score(y_train, trainPreds)
+
+        AccScore.append({
+            "Model": name,
+            "TestAcc":teAcc,
+            "TrainAcc": trAcc
+        })
+
+    return pd.DataFrame(AccScore)   
