@@ -10,14 +10,17 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tools.tools import add_constant
 from sklearn import metrics
 
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 
 
-def Outlier_IQR(df,columns):
+
+def Outlier_IQR(df,columns,whis=1.5):
     for i in columns:
         IQR = df[i].quantile(0.75) - df[i].quantile(0.25)
-        UL = df[i].quantile(0.75) + (1.5 * IQR)
-        LL = df[i].quantile(0.25) - (1.5 * IQR)
+        UL = df[i].quantile(0.75) + (whis * IQR)
+        LL = df[i].quantile(0.25) - (whis * IQR)
 
         df[i] = np.where(df[i] > UL, UL, np.where(df[i] < LL , LL, df[i]))
     return df
@@ -287,3 +290,59 @@ def CompareAccuracy(models, x_train, x_test, y_train, y_test):
         })
 
     return pd.DataFrame(AccScore)   
+
+
+
+## VERSION 2.3
+
+
+def Metrics_Clf(y_train, y_pred_train, y_test, y_pred_test):
+    # For training set
+    train_accuracy = accuracy_score(y_train, y_pred_train)
+    train_precision = precision_score(y_train, y_pred_train)
+    train_recall = recall_score(y_train, y_pred_train)
+    train_f1 = f1_score(y_train, y_pred_train)
+    train_roc_auc = roc_auc_score(y_train, y_pred_train)
+
+    # For testing set
+    test_accuracy = accuracy_score(y_test, y_pred_test)
+    test_precision = precision_score(y_test, y_pred_test)
+    test_recall = recall_score(y_test, y_pred_test)
+    test_f1 = f1_score(y_test, y_pred_test)
+    test_roc_auc = roc_auc_score(y_test, y_pred_test)
+    
+    # Combine the results into a dictionary
+    ClMetrics = {
+        "Metric": ["accuracy", "precision", "recall", "f1", "roc_auc"],
+        "Train_Values": [train_accuracy, train_precision, train_recall, train_f1, train_roc_auc],
+        "Test_Values": [test_accuracy, test_precision, test_recall, test_f1, test_roc_auc]
+    }
+    
+    # Convert to DataFrame
+    return pd.DataFrame(ClMetrics)
+
+
+
+
+def Metrics_Reg(y_train, y_pred_train, y_test, y_pred_test):
+    # For training set
+    train_mae = mean_absolute_error(y_train, y_pred_train)
+    train_mse = mean_squared_error(y_train, y_pred_train)
+    train_rmse = (train_mse)**0.5
+    train_r2 = r2_score(y_train, y_pred_train)
+
+    # For testing set
+    test_mae = mean_absolute_error(y_test, y_pred_test)
+    test_mse = mean_squared_error(y_test, y_pred_test)
+    test_rmse = (test_mse)**0.5
+    test_r2 = r2_score(y_test, y_pred_test)
+    
+    # Combine the results into a dictionary
+    ReMetrics = {
+        "Metric": ["MAE", "MSE", "RMSE", "R²"],
+        "Train_Values": [train_mae, train_mse, train_rmse, train_r2],
+        "Test_Values": [test_mae, test_mse, test_rmse, test_r2]
+    }
+
+    # Convert to DataFrame
+    return pd.DataFrame(ReMetrics)
