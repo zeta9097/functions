@@ -218,11 +218,11 @@ pip install dsfns
 20. Metrics_Clf (Classification Metrics):
     The Metrics_Clf function computes the following classification metrics:
 
-    Accuracy: The proportion of correct predictions out of all predictions.
-    Precision: The proportion of true positive predictions out of all predicted positives.
-    Recall: The proportion of true positive predictions out of all actual positives.
-    F1 Score: The harmonic mean of precision and recall, providing a balance between them.
-    ROC AUC: The area under the Receiver Operating Characteristic (ROC) curve, indicating the model's ability to distinguish between classes.
+    1. Accuracy: The proportion of correct predictions out of all predictions.
+    2. Precision: The proportion of true positive predictions out of all predicted positives.
+    3. Recall: The proportion of true positive predictions out of all actual positives.
+    4. F1 Score: The harmonic mean of precision and recall, providing a balance between them.
+    5. ROC AUC: The area under the Receiver Operating Characteristic (ROC) curve, indicating the model's ability to distinguish between classes.
 
     def Metrics_Clf(y_train, y_pred_train, y_test, y_pred_test):
 
@@ -234,10 +234,10 @@ pip install dsfns
 21. Metrics_Reg (Regression Metrics):
     The Metrics_Reg function computes the following regression metrics:
 
-    Mean Absolute Error (MAE): The average of the absolute differences between predicted and actual values.
-    Mean Squared Error (MSE): The average of the squared differences between predicted and actual values.
-    Root Mean Squared Error (RMSE): The square root of the Mean Squared Error, which gives an estimate of the standard deviation of the prediction error.
-    R² Score (Coefficient of Determination): A measure of how well the model explains the variance in the data.
+    1. Mean Absolute Error (MAE): The average of the absolute differences between predicted and actual values.
+    2. Mean Squared Error (MSE): The average of the squared differences between predicted and actual values.
+    3. Root Mean Squared Error (RMSE): The square root of the Mean Squared Error, which gives an estimate of the standard deviation of the prediction error.
+    4. R² Score (Coefficient of Determination): A measure of how well the model explains the variance in the data.
 
     def Metrics_Reg(y_train, y_pred_train, y_test, y_pred_test):
 
