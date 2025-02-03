@@ -4,7 +4,7 @@
 pip install dsfns
 ```
 
-# FNS Package
+# dsfns
 
 # Version History
 
@@ -22,6 +22,7 @@ pip install dsfns
     2.1  - Visualize data with Multiple Regression plots and VIF (Variance Inflation Factor)
     2.2  - Compare model accuracy of multiple models
     2.3  - Added function that outputs various metrics for model evaluation
+    2.4  - Minor code changes to accomodate new features
 
 ## FUNCTION DESCRIPTIONS
 
