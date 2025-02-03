@@ -4,8 +4,7 @@ from feature_engine.outliers import Winsorizer
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import LabelEncoder
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, LabelEncoder
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from statsmodels.tools.tools import add_constant
 from sklearn import metrics
@@ -13,6 +12,25 @@ from sklearn import metrics
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
+
+# Version History
+'''
+    1.1  - Outlier handling - IQR method / Winsorizer / Clip
+    1.2  - Missing value imputation - Simple Imputer / Mean, Median, Mode / Numerical data with mean and obj/cat with mode
+    1.3  - Outlier Counter, Columns with Outlier and high frequency column finder (single value repeating over 50%)
+    1.4  - Data Encoding (label, onehot) and Scaling (MinMax, Standard, Robust)
+    1.5  - Fixed general code issues
+    1.6  - Redundant Codes removed
+    1.7  - Fixed general code issues / issues with return statement
+    1.8  - Fixed general code issues / issues with df.sample()
+    1.9  - Added Outlier replacement (using Mean, Median or Mode) and Low Variance columns (cols with IQR = 0)
+    1.10 - Missing value Interpolation (use with Time series data, Continuous variables with trends etc)
+    2.0  - Visualize data with Single and Multiple Line plots
+    2.1  - Visualize data with Multiple Regression plots and VIF (Variance Inflation Factor)
+    2.2  - Compare model accuracy of multiple models
+    2.3  - Added function that outputs various metrics for model evaluation
+
+'''
 
 
 
@@ -27,10 +45,10 @@ def Outlier_IQR(df,columns,whis=1.5):
 
 
 
-def Outlier_Winsorizer(df, column, capping_method='iqr'):
+def Outlier_Winsorizer(df, column, capping_method='iqr', fold=1.5):
     winsor = Winsorizer(capping_method=capping_method,
                         tail='both',
-                        fold=1.5,
+                        fold=fold,
                         variables=[column])
     
     df[column] = winsor.fit_transform(df[[column]])
@@ -38,10 +56,13 @@ def Outlier_Winsorizer(df, column, capping_method='iqr'):
 
 
 
-def Outlier_Clip(df,columns):
+def Outlier_Clip(df,columns, perc=0.05):
+    up = 1 - perc
+    lw = 0 + perc
     for column in columns:
-        df[column] = df[column].clip(lower=df[column].quantile(0.05), upper=df[column].quantile(0.95))
+        df[column] = df[column].clip(lower=df[column].quantile(lw), upper=df[column].quantile(up))
     return df
+
 
 
 def MissingVal_Repl(df, columns, type='mean'):
@@ -57,6 +78,7 @@ def MissingVal_Repl(df, columns, type='mean'):
     return df
 
 
+
 def MissingVal_Imputer(df,columns,strategy='mean'):
     if strategy == 'mode':
         strategy = 'most_frequent'
@@ -66,6 +88,7 @@ def MissingVal_Imputer(df,columns,strategy='mean'):
         df[i] = pd.DataFrame(imputer.fit_transform(df[[i]]))
     return df
     
+
 
 def MissingVal_Fillna(df):
     num_cols = df.select_dtypes(include=['float', 'int']).columns
@@ -78,15 +101,14 @@ def MissingVal_Fillna(df):
     return df
 
 
-## VERSION 1.3
 
-def outlierColumns(df):
+def outlierColumns(df, whis=1.5):
     outl_cols = []
     for i in df.columns:
         if pd.api.types.is_numeric_dtype(df[i]):
             IQR = df[i].quantile(0.75) - df[i].quantile(0.25)
-            LLi = df[i].quantile(0.25) - (1.5 * IQR)
-            ULi = df[i].quantile(0.75) + (1.5 * IQR)
+            LLi = df[i].quantile(0.25) - (whis * IQR)
+            ULi = df[i].quantile(0.75) + (whis * IQR)
             
             if ((df[i] < LLi) | (df[i] > ULi)).sum() > 0:
                 outl_cols.append(i)
@@ -115,7 +137,6 @@ def highFrequency(df, perc=0.5):
     return high_freq_columns
 
 
-## VERSION 1.4
 
 def Encoding(df,method='label'):
     cat_cols = df.select_dtypes(include=['object', 'category']).columns
@@ -126,6 +147,7 @@ def Encoding(df,method='label'):
     elif method == 'onehot':
         df = pd.get_dummies(df, columns=cat_cols)
     return df
+
 
 
 def Scaling(df, method='minmax'):
@@ -140,11 +162,6 @@ def Scaling(df, method='minmax'):
     return df
     
 
-
-## VERSION 1.6
-# Redundant Codes removed
-
-## VERSION 1.9
 
 def Outlier_MMM(df, columns, type='median'):
     for i in columns:
@@ -168,6 +185,7 @@ def Outlier_MMM(df, columns, type='median'):
     return df
 
 
+
 def LowVarianceCols(df):
     LowVar = []
     columns = df.describe(include = ['int','float']).columns
@@ -179,7 +197,6 @@ def LowVarianceCols(df):
     return LowVar
 
 
-## VERSION 2.0
 
 def MissingVal_Interpolate(df,type='linear'):
     num_cols = df.select_dtypes(include=['float', 'int']).columns
@@ -227,7 +244,7 @@ def Lineplot_Single(df, inpCol, outCol):
     plt.tight_layout()
     plt.show()
 
-## VERSION 2.1
+
 
 def RegressionPlot_Multiple(df, inpCol, outCol, figsize=(15, 5)):
    
@@ -262,11 +279,6 @@ def VIF(X):
     return vif_df    
 
 
-## VERSION 2.1.1
-# Redundant Codes removed
-
-
-## VERSION 2.2
 
 def CompareAccuracy(models, x_train, x_test, y_train, y_test):
     AccScore = []
@@ -293,9 +305,6 @@ def CompareAccuracy(models, x_train, x_test, y_train, y_test):
 
 
 
-## VERSION 2.3
-
-
 def Metrics_Clf(y_train, y_pred_train, y_test, y_pred_test):
     # For training set
     train_accuracy = accuracy_score(y_train, y_pred_train)
@@ -318,9 +327,7 @@ def Metrics_Clf(y_train, y_pred_train, y_test, y_pred_test):
         "Test_Values": [test_accuracy, test_precision, test_recall, test_f1, test_roc_auc]
     }
     
-    # Convert to DataFrame
     return pd.DataFrame(ClMetrics)
-
 
 
 
@@ -344,5 +351,4 @@ def Metrics_Reg(y_train, y_pred_train, y_test, y_pred_test):
         "Test_Values": [test_mae, test_mse, test_rmse, test_r2]
     }
 
-    # Convert to DataFrame
     return pd.DataFrame(ReMetrics)

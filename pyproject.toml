@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 
 name='dsfns' 
-version='2.3'
+version='2.4'
 authors=[
     {name = 'MAFIA'},
 ]

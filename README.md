@@ -34,24 +34,26 @@ pip install dsfns
 
     - df: DataFrame — The input data in which outliers will be detected.
     - columns: list — List of column names in which outliers need to be identified.
-    - whis: float, optional (default=1.5) — The multiplier to define the outlier limits as 1.5 \* IQR by default.
+    - whis: float, optional (default=1.5) — The multiplier to define the outlier limits as 1.5 x IQR by default.
 
 2. Replace outliers with Winsorizer:
    Applies Winsorization to cap outliers in the specified column using either IQR or other capping methods.
 
-    Outlier_Winsorizer(df, column, capping_method='iqr')
+    Outlier_Winsorizer(df, column, capping_method='iqr', fold=1.5)
 
     - df: DataFrame — The input data to apply Winsorization.
     - column: str — The name of the column to apply the Winsorization to.
     - capping_method: str, default 'iqr' — Method used to define the outlier thresholds (options: 'iqr' , std, 'quantiles' or 'mad').
+    - fold: float, optional (default=1.5) — The multiplier to define the fold.
 
 3. Clip Outliers using Clip method:
    Clips extreme values to a predefined threshold in the specified columns, effectively handling outliers.
 
-    Outlier_Clip(df, columns)
+    Outlier_Clip(df, columns, perc=0.05)
 
     - df: DataFrame — The input data to clip outliers from.
     - columns: list — List of columns in which to clip the outliers.
+    - perc: float, (default=0.05) — The percentile to clip outliers. Default value of 0.05 clips top 0.95 and bottom 0.05
 
 4. Outlier Replacement with Mean, Median or Mode:
    This function is designed to identify and handle outliers in the specified columns of a given DataFrame. It uses the Interquartile Range (IQR) method to determine outliers and replaces the outliers with a user-defined statistic (mean, median, or mode).
@@ -65,9 +67,10 @@ pip install dsfns
 5. Outlier Columns:
    Returns a list of columns that contain outliers based on IQR.
 
-    outlierColumns(df):
+    outlierColumns(df, whis=1.5):
 
     - df: DataFrame — The input data to check for outliers.
+    - whis: float, optional (default=1.5) — The multiplier to define the outlier limits as 1.5 x IQR by default
 
 6. Outlier Counter:
    Counts the number of outliers in the specified columns.
