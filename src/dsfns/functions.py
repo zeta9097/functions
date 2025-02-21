@@ -12,6 +12,7 @@ from sklearn import metrics
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_auc_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
+from sklearn.base import BaseEstimator, TransformerMixin
 
 # Version History
 '''
@@ -29,6 +30,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
     2.1  - Visualize data with Multiple Regression plots and VIF (Variance Inflation Factor)
     2.2  - Compare model accuracy of multiple models
     2.3  - Added function that outputs various metrics for model evaluation
+    2.4  - Added a function that creates a reusable transformer from a custom function
 
 '''
 
@@ -352,3 +354,15 @@ def Metrics_Reg(y_train, y_pred_train, y_test, y_pred_test):
     }
 
     return pd.DataFrame(ReMetrics)
+
+
+
+def RowTransformer(custom_transform_fn):
+    class CustomTransformer(BaseEstimator, TransformerMixin):
+        def fit(self, X, y=None):
+            return self 
+        
+        def transform(self, X):
+            return custom_transform_fn(X) 
+
+    return CustomTransformer()

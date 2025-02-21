@@ -160,7 +160,7 @@ pip install dsfns
 
     -   df (DataFrame): The input pandas DataFrame for which low variance columns need to be identified.
 
-15. VIF(Variance Inflation Factor)
+15. VIF(Variance Inflation Factor):
     The VIF function calculates the Variance Inflation Factor (VIF) for each predictor variable in a dataset, providing insights into multicollinearity. A high VIF (usually greater than 10) indicates that the variable is highly collinear with other predictors and might need to be addressed.
 
     def VIF(X)
@@ -168,9 +168,24 @@ pip install dsfns
     -   X (DataFrame): A DataFrame containing the independent variables (predictor features) of the dataset.
         NOTE: The dataset should not include the target variable (dependent variable).
 
+16. RowTransformer:
+    The RowTransformer function is a utility that creates a custom transformer for scikit-learn pipelines. This transformer allows you to apply a custom transformation function (custom_transform_fn) to each row of a dataset. It can be useful when you need to perform row-wise operations, such as applying specific functions to individual rows of data in a machine learning pipeline
+
+        def RowTransformer(custom_transform_fn)
+
+        -   custom_transform_fn: A function that takes in a DataFrame or ndarray and performs custom transformations on the rows. This function is applied to each row during the transformation step.
+
+        Example:
+        # Sample custom transformation function
+            def custom_transform_fn(X):
+            return np.log(X + 1)
+
+        #Creating the custom transformer using RowTransformer
+        RowTransformer = RowTransformer(custom_transform_fn)
+
 ## DATA VISUALIZATION
 
-16. LinePlot Multiple:
+17. LinePlot Multiple:
     Creates a set of subplots where each input column (inpCol) is plotted against the output column (outCol) in individual subplots.
 
     def Lineplot_Multi(df, inpCol, outCol, figsize=(15, 5))
@@ -180,7 +195,7 @@ pip install dsfns
     -   outCol (str): The output column (target variable) to plot against each input column.
     -   figsize (tuple): Tuple defining the size of the overall figure (default: (15, 5)).
 
-17. LinePlot Single:
+18. LinePlot Single:
     Plots multiple input columns (inpCol) against the output column (outCol) on the same plot, using different lines for each input column, with a legend to identify them.
     NOTE: SCALE THE DATA FOR BETTER VISUALIZATION
 
@@ -190,7 +205,7 @@ pip install dsfns
     -   inpCol (list): A list of input columns (features) to plot against the output column.
     -   outCol (str): The output column (target variable) to plot against each input column.
 
-18. RegressionPlot Multiple:
+19. RegressionPlot Multiple:
     Creates a set of subplots where each input column (inpCol) is plotted against the output column (outCol) in individual subplots.
 
     def RegressionPlot_Multiple(df, inpCol, outCol, figsize=(15, 5))
@@ -202,7 +217,7 @@ pip install dsfns
 
 ## EVALUATION
 
-19. Compare Model Accuracy:
+20. Compare Model Accuracy:
     The CompareAccuracy function is a utility to evaluate and compare the training and testing accuracy of multiple machine learning models on a given dataset. It provides a simple way to benchmark different models and understand their performance.
 
     def CompareAccuracy(models, x_train, x_test, y_train, y_test):
@@ -219,7 +234,7 @@ pip install dsfns
     -   y_train: The target labels for training the models.
     -   y_test: The target labels for testing the models.
 
-20. Metrics_Clf (Classification Metrics):
+21. Metrics_Clf (Classification Metrics):
     The Metrics_Clf function computes the following classification metrics:
 
     1. Accuracy: The proportion of correct predictions out of all predictions.
@@ -235,7 +250,7 @@ pip install dsfns
     -   y_test: The true labels of the testing set.
     -   y_pred_test: The predicted labels for the testing set.
 
-21. Metrics_Reg (Regression Metrics):
+22. Metrics_Reg (Regression Metrics):
     The Metrics_Reg function computes the following regression metrics:
 
     1. Mean Absolute Error (MAE): The average of the absolute differences between predicted and actual values.
