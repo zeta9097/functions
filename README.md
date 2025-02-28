@@ -23,6 +23,7 @@ pip install dsfns
     2.2  - Compare model accuracy of multiple models
     2.3  - Added function that outputs various metrics for model evaluation
     2.4  - Minor code changes to accomodate new features
+    2.6  - Function added that can train, evaluate, and print results for any classifier, optionally using resampling.
 
 ## FUNCTION DESCRIPTIONS
 
@@ -264,3 +265,17 @@ pip install dsfns
     -   y_pred_train: The predicted labels for the training set.
     -   y_test: The true labels of the testing set.
     -   y_pred_test: The predicted labels for the testing set.
+
+23. TrainEvaluate_Classifier:
+    A function to train, evaluate, and print results for any classifier, optionally using resampling and preprocessing.
+
+    def TrainEvaluate_Classifier(model, x_train, y_train, x_test, y_test, preprocessor=None, resampler=None):
+    Parameters:
+
+    -   model: Any classifier (e.g., XGBClassifier, RandomForest, etc.)
+    -   x_train: Training features
+    -   y_train: Training labels
+    -   x_test: Testing features
+    -   y_test: Testing labels
+    -   preprocessor: Any preprocessing steps (like scaling, encoding, etc.)
+    -   resampler: Optional resampling technique (e.g., SMOTE, ADASYN, etc.)

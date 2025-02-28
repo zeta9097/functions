@@ -14,6 +14,11 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from sklearn.base import BaseEstimator, TransformerMixin
 
+from sklearn.pipeline import Pipeline
+from imblearn.pipeline import Pipeline as ImbPipeline  # For imbalanced learning resampling
+from sklearn.metrics import classification_report
+
+
 # Version History
 '''
     1.1  - Outlier handling - IQR method / Winsorizer / Clip
@@ -31,6 +36,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
     2.2  - Compare model accuracy of multiple models
     2.3  - Added function that outputs various metrics for model evaluation
     2.4  - Added a function that creates a reusable transformer from a custom function
+    2.6  - Function added that can train, evaluate, and print results for any classifier, optionally using resampling.
 
 '''
 
@@ -366,3 +372,31 @@ def RowTransformer(custom_transform_fn):
             return custom_transform_fn(X) 
 
     return CustomTransformer()
+
+
+
+def TrainEvaluate_Classifier(model, x_train, y_train, x_test, y_test, preprocessor=None, resampler=None):
+        
+    if resampler:
+        pipeline = ImbPipeline([
+            ('preprocessor', preprocessor),  # Preprocessing step (if provided)
+            ('resampler', resampler),        # Resampling step (if provided)
+            ('classifier', model)            # The classifier
+        ])
+    else:
+        pipeline = Pipeline([
+            ('preprocessor', preprocessor),  
+            ('classifier', model)            
+        ])
+    
+    pipeline.fit(x_train, y_train)
+    
+    # Predict on the test set
+    y_pred = pipeline.predict(x_test)
+    
+    # Print the results
+    print("Classification Report:")
+    print(classification_report(y_test, y_pred))
+    print("ROC-AUC Score:", round(roc_auc_score(y_test, y_pred), 2))
+    
+    return pipeline
